@@ -127,6 +127,81 @@ app.get('/tabs/:id', (req, res) => {
     })
 })
 
+//Update a User
+app.patch('/users/:id', (req, res) => {
+    const _id = req.params.id
+    User.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true }).then((user) => {
+        res.send(user)
+    }).catch((e) => {
+        res.status(400).send(e)
+    })
+})
+
+//Update a Task
+app.patch('/tasks/:id', (req, res) => {
+    const _id = req.params.id
+    Task.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true }).then((task) => {
+        res.send(task)
+    }).catch((e) => {
+        res.status(400).send(e)
+    })
+})
+
+
+//Update a Tasb
+app.patch('/tabs/:id', (req, res) => {
+
+    const _id = req.params.id
+    Tab.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true }).then((tab) => {
+        res.send(tab)
+    }).catch((e) => {
+        res.status(400).send(e)
+    })
+})
+
+//Delete a User
+app.delete('/users/:id', (req, res) => {
+    const _id = req.params.id
+    User.findByIdAndDelete(_id).then((user) => {
+        if (!user) {
+            res.status(400).send("No such user exist")
+        }
+        res.send("succesfully delete")
+    }).catch(() => {
+        res.send(" Delete failed")
+    })
+})
+
+
+//Delete a Task
+app.delete('/tasks/:id', (req, res) => {
+    const _id = req.params.id
+    Task.findByIdAndDelete(_id).then((task) => {
+        if (!task) {
+            res.status(400).send("No task with this id exists")
+        }
+        res.send("succesfully delete")
+    }).catch(() => {
+        res.send(" Delete failed")
+    })
+})
+
+//Delete a Tab
+app.delete('/tabs/:id', (req, res) => {
+    const _id = req.params.id
+    Tab.findByIdAndDelete(_id).then((tabs) => {
+        if (!tabs) {
+            res.status(400).send("No tab with this id exists")
+        }
+        res.send("succesfully delete")
+    }).catch(() => {
+        res.send(" Delete failed")
+    })
+})
+
+
 app.listen(port, () => {
     console.log('Server is up on port ' + port)
 })
+
+

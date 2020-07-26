@@ -17,14 +17,9 @@ const Tab = mongoose.model('Tab', {
         dataType : String,
         label : String,
         description:String,
-        options:[]
-         },
-         {
-            dataType : String,
-            label : String,
-            placeholder: String,
-            description: String,
-         }
+        options:[String]
+         
+    }
         ]
     
     
