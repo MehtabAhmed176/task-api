@@ -3,71 +3,77 @@ const express = require('express')
 //Requiring or importing all the model objects i-e User,Task,Tab from model class 
 const Task = require('../models/task')
 const app = express()
-const router=new express.Router()
+const router = new express.Router()
 
 //Route for the creation of the task
-router.post('/tasks', (req, res) => {
+router.post('/tasks', async (req, res) => {
     const task = new Task(req.body)
-    task.save().then(() => {
+
+    try {
+
+        await task.save()
         res.send(task)
-    }).catch((e) => {
+    } catch (error) {
         res.status(400).send(e)
-    })
+    }
 })
 
 //Reading the list of all tasks 
-router.get('/tasks', (req, res) => {
+router.get('/tasks', async (req, res) => {
 
-    Task.find({}).then((task) => {
-
+    try {
+        const task = await Task.find({})
         if (!task) {
             res.send('No task found')
         }
         res.send(task)
-    }).catch((err) => {
+    } catch (error) {
         res.statusCode().send('There is some problem')
-    })
-
+    }
 })
 
 
 // Reading a single  Task
-router.get('/tasks/:id', (req, res) => {
+router.get('/tasks/:id', async (req, res) => {
     const _id = req.params.id
-
-    Task.findById(_id).then((task) => {
+    try {
+        const task = await Task.findById(_id)
         if (!task) {
             return res.status(404).send()
         }
         res.send(task)
-    }).catch(() => {
+    } catch (error) {
         res.status(500).send("Problem with Server")
-    })
+    }
+
 })
 
 
 //Update a Task
-router.patch('/tasks/:id', (req, res) => {
+router.patch('/tasks/:id', async (req, res) => {
     const _id = req.params.id
-    Task.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true }).then((task) => {
+    try {
+        const task = await Task.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true })
         res.send(task)
-    }).catch((e) => {
+    } catch (error) {
         res.status(400).send(e)
-    })
+    }
 })
 
 //Delete a Task
-router.delete('/tasks/:id', (req, res) => {
+router.delete('/tasks/:id', async (req, res) => {
     const _id = req.params.id
-    Task.findByIdAndDelete(_id).then((task) => {
+    try {
+        const task = await Task.findByIdAndDelete(_id)
         if (!task) {
             res.status(400).send("No task with this id exists")
         }
         res.send("succesfully delete")
-    }).catch(() => {
+    } catch (error) {
         res.send(" Delete failed")
-    })
+    }
+
 })
 
 
-module.exports=router
+module.exports = router
