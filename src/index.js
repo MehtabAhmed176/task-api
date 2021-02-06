@@ -7,7 +7,7 @@ require('./db/mongoose') //We are not using its object so calling it like this
 //Importing the routes for user,task and tab
 const userRouter=require('./routers/routers.user')
 const taskRouter=require('./routers/router.tasks')
-const tabRouter=require('./routers/router.tabs')
+
 
 
 app.use(express.json()) // This is a middle function that convert the oncoming json into object 
@@ -19,7 +19,7 @@ It would be much nicer if we create a seperate route file and place all our rout
 //Registering all the three routes
 app.use(userRouter)
 app.use(taskRouter)
-app.use(tabRouter)
+
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port)
